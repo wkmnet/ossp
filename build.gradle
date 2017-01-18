@@ -93,8 +93,8 @@ dependencies {
 
 jettyEclipseRun {
     contextPath="/"
-    httpPort=9090
-    stopPort=9095
+    httpPort=9100
+    stopPort=9200
     stopKey="stopMe"
 }
 
@@ -105,6 +105,6 @@ jettyEclipseRun {
 //}
 
 jettyEclipseStop {
-    stopPort=9095
+    stopPort=9200
     stopKey="stopMe"
 }
