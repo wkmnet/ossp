@@ -35,6 +35,8 @@ public class HomeController extends BaseController {
         String name = getPara("name");
         String password = getPara("password");
         logger.info("user:{};password:{}",name,password);
+        String host = getRequest().getHeader("Host");
+        logger.info("host:{}",host);
         Response response = null;
         try {
             Request request = Request.Post(userCenterUrl + "/user/login");
@@ -45,7 +47,7 @@ public class HomeController extends BaseController {
             if(body.getBoolean("success")){
                 JSONObject data = body.getJSONObject("data");
                 Cookie cookie = new Cookie("user_cookie_key",data.getString("token"));
-                cookie.setDomain("wkm.vmovier.cc");
+                cookie.setDomain(host);
                 cookie.setMaxAge(60*5);
                 setCookie(cookie);
                 render("/html/success.html");
