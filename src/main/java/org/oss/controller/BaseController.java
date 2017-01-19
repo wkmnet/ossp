@@ -43,6 +43,7 @@ public abstract class BaseController extends Controller {
     protected String getCookieValue(String name){
         Cookie[] cookies = getRequest().getCookies();
         if(cookies == null || cookies.length == 0){
+            logger.info("not find cookie");
             return null;
         }
         for(Cookie c:cookies){
