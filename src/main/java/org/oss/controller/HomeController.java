@@ -48,7 +48,7 @@ public class HomeController extends BaseController {
                 JSONObject data = body.getJSONObject("data");
                 Cookie cookie = new Cookie("user_cookie_key",data.getString("token"));
                 cookie.setDomain(host());
-                cookie.setMaxAge(60*5);
+                cookie.setMaxAge(60);
                 setCookie(cookie);
                 render("/html/success.html");
                 return;

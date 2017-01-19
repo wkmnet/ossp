@@ -46,6 +46,7 @@ public abstract class BaseController extends Controller {
             return null;
         }
         for(Cookie c:cookies){
+            logger.info("cookie:{}",c.toString());
             if(host().equals(c.getDomain())){
                 if(name.equals(c.getName())){
                     return c.getValue();
