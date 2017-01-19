@@ -11,6 +11,7 @@
 package org.oss.controller;
 
 import net.sf.json.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.fluent.Response;
@@ -35,8 +36,7 @@ public class HomeController extends BaseController {
         String name = getPara("name");
         String password = getPara("password");
         logger.info("user:{};password:{}",name,password);
-        String host = getRequest().getHeader("Host");
-        logger.info("host:{}",host);
+        logger.info("host:{}",host());
         Response response = null;
         try {
             Request request = Request.Post(userCenterUrl + "/user/login");
@@ -47,7 +47,7 @@ public class HomeController extends BaseController {
             if(body.getBoolean("success")){
                 JSONObject data = body.getJSONObject("data");
                 Cookie cookie = new Cookie("user_cookie_key",data.getString("token"));
-                cookie.setDomain(host);
+                cookie.setDomain(host());
                 cookie.setMaxAge(60*5);
                 setCookie(cookie);
                 render("/html/success.html");
@@ -66,9 +66,13 @@ public class HomeController extends BaseController {
     }
 
     public void check(){
-        String name = getCookie("user_cookie_key");
-        logger.info("user:{}",name);
-        render("/html/success.html");
+        String value = getCookieValue("user_cookie_key");
+        logger.info("user:{}",value);
+        if(StringUtils.isBlank(value)){
+            render("/html/fail.html");
+        } else {
+            render("/html/success.html");
+        }
     }
 
 }

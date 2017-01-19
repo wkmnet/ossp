@@ -14,6 +14,8 @@ import com.jfinal.core.Controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.Cookie;
+
 /**
  * Create with IntelliJ IDEA
  * Project name : oss
@@ -36,6 +38,29 @@ public abstract class BaseController extends Controller {
         logger.info("request home page:index.jsp");
         render("/html/index.html");
         logger.info("request home page end:index.jsp");
+    }
+
+    protected String getCookieValue(String name){
+        Cookie[] cookies = getRequest().getCookies();
+        if(cookies == null || cookies.length == 0){
+            return null;
+        }
+        for(Cookie c:cookies){
+            if(host().equals(c.getDomain())){
+                if(name.equals(c.getName())){
+                    return c.getValue();
+                }
+            }
+        }
+        return null;
+    }
+
+    protected String host(){
+        String host = getRequest().getHeader("Host");
+        if(host.indexOf(':') > 0){
+            return host.substring(0,host.indexOf(':'));
+        }
+        return host;
     }
 
 }
